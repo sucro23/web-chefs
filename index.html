@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ember & Thyme — Modern Dining</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --dark: #11110f;
+            --dark-soft: #1a1916;
+            --cream: #f5f0e7;
+            --muted: #b9b1a2;
+            --orange: #e86f3d;
+            --orange-light: #f18b5c;
+            --white: #ffffff;
+            --border: rgba(255,255,255,0.1);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "DM Sans", sans-serif;
+            background: var(--dark);
+            color: var(--cream);
+            line-height: 1.6;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        img {
+            width: 100%;
+            display: block;
+            object-fit: cover;
+        }
+
+        /* ================= HEADER ================= */
+
+        header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 10;
+            padding: 28px 6%;
+        }
+
+        .navbar {
+            max-width: 1400px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: "Playfair Display", serif;
+            font-size: 27px;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .logo span {
+            color: var(--orange);
+        }
+
+        nav {
+            display: flex;
+            gap: 35px;
+            align-items: center;
+        }
+
+        nav a {
+            font-size: 14px;
+            color: #ddd7cd;
+            transition: .3s;
+        }
+
+        nav a:hover {
+            color: var(--orange-light);
+        }
+
+        .nav-btn {
+            border: 1px solid rgba(255,255,255,.3);
+            padding: 11px 19px;
+            border-radius: 30px;
+        }
+
+        .nav-btn:hover {
+            background: var(--orange);
+            border-color: var(--orange);
+            color: white;
+        }
+
+        /* ================= HERO ================= */
+
+        .hero {
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            background:
+                linear-gradient(90deg, rgba(12,12,10,.96) 15%, rgba(12,12,10,.72) 50%, rgba(12,12,10,.3)),
+                url("https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1800&q=85")
+                center/cover;
+        }
+
+        .hero-content {
+            width: min(1400px, 88%);
+            margin: auto;
+            padding-top: 70px;
+        }
+
+        .eyebrow {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--orange-light);
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 3px;
+            font-weight: 600;
+            margin-bottom: 22px;
+        }
+
+        .eyebrow::before {
+            content: "";
+            width: 38px;
+            height: 1px;
+            background: var(--orange);
+        }
+
+        h1 {
+            max-width: 720px;
+            font-family: "Playfair Display", serif;
+            font-size: clamp(55px, 8vw, 105px);
+            line-height: .95;
+            letter-spacing: -4px;
+            margin-bottom: 30px;
+        }
+
+        h1 em {
+            color: var(--orange-light);
+            font-weight: 500;
+        }
+
+        .hero-text {
+            max-width: 510px;
+            color: #c9c1b4;
+            font-size: 17px;
+            margin-bottom: 38px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 14px;
+            display: inline-block;
+            transition: .3s;
+        }
+
+        .btn-primary {
+            background: var(--orange);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--orange-light);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            border: 1px solid rgba(255,255,255,.3);
+        }
+
+        .btn-outline:hover {
+            background: white;
+            color: var(--dark);
+        }
+
+        .scroll {
+            position: absolute;
+            bottom: 30px;
+            right: 6%;
+            writing-mode: vertical-rl;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 10px;
+            color: #aaa397;
+        }
+
+        /* ================= GENERAL ================= */
+
+        section {
+            padding: 110px 6%;
+        }
+
+        .container {
+            max-width: 1250px;
+            margin: auto;
+        }
+
+        .section-heading {
+            max-width: 650px;
+            margin-bottom: 55px;
+        }
+
+        .section-heading .eyebrow {
+            margin-bottom: 15px;
+        }
+
+        h2 {
+            font-family: "Playfair Display", serif;
+            font-size: clamp(40px, 5vw, 68px);
+            line-height: 1;
+            letter-spacing: -2px;
+        }
+
+        .section-description {
+            color: var(--muted);
+            margin-top: 20px;
+            max-width: 540px;
+        }
+
+        /* ================= MENU ================= */
+
+        .menu-section {
+            background: var(--cream);
+            color: var(--dark);
+        }
+
+        .menu-section .eyebrow {
+            color: var(--orange);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .menu-card {
+            background: white;
+            overflow: hidden;
+            transition: .35s;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-7px);
+        }
+
+        .menu-image {
+            height: 280px;
+            overflow: hidden;
+        }
+
+        .menu-image img {
+            height: 100%;
+            transition: .5s;
+        }
+
+        .menu-card:hover img {
+            transform: scale(1.06);
+        }
+
+        .menu-info {
+            padding: 25px;
+        }
+
+        .menu-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .menu-info h3 {
+            font-family: "Playfair Display", serif;
+            font-size: 24px;
+        }
+
+        .price {
+            color: var(--orange);
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .menu-info p {
+            margin-top: 10px;
+            color: #777168;
+            font-size: 14px;
+        }
+
+        /* ================= ABOUT ================= */
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 90px;
+            align-items: center;
+        }
+
+        .about-images {
+            position: relative;
+            height: 580px;
+        }
+
+        .about-main {
+            width: 80%;
+            height: 500px;
+        }
+
+        .about-small {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: 42%;
+            height: 260px;
+            border: 8px solid var(--dark);
+        }
+
+        .about-content p {
+            color: var(--muted);
+            margin: 20px 0;
+        }
+
+        .signature {
+            margin-top: 35px;
+            font-family: "Playfair Display", serif;
+            font-style: italic;
+            font-size: 28px;
+            color: var(--orange-light);
+        }
+
+        /* ================= NUMBERS ================= */
+
+        .numbers {
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            text-align: center;
+            padding: 55px 0;
+            margin-top: 80px;
+        }
+
+        .number h3 {
+            font-family: "Playfair Display", serif;
+            font-size: 48px;
+            color: var(--orange-light);
+        }
+
+        .number p {
+            color: var(--muted);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* ================= CHEF ================= */
+
+        .chef-section {
+            background: var(--dark-soft);
+        }
+
+        .chef-grid {
+            display: grid;
+            grid-template-columns: .8fr 1.2fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .chef-image {
+            height: 620px;
+        }
+
+        .chef-image img {
+            height: 100%;
+        }
+
+        .chef-content blockquote {
+            font-family: "Playfair Display", serif;
+            font-size: clamp(30px, 4vw, 53px);
+            line-height: 1.1;
+            margin: 25px 0;
+        }
+
+        .chef-content p {
+            color: var(--muted);
+            max-width: 600px;
+        }
+
+        .chef-name {
+            margin-top: 30px;
+            font-weight: 700;
+        }
+
+        .chef-role {
+            color: var(--orange-light);
+            font-size: 13px;
+        }
+
+        /* ================= TESTIMONIAL ================= */
+
+        .testimonial {
+            text-align: center;
+            background: var(--orange);
+            color: white;
+        }
+
+        .testimonial h2 {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .quote {
+            font-family: "Playfair Display", serif;
+            font-size: 34px;
+            max-width: 850px;
+            margin: 35px auto 20px;
+            line-height: 1.25;
+        }
+
+        .customer {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* ================= RESERVATION ================= */
+
+        .reservation {
+            background:
+                linear-gradient(rgba(17,17,15,.82), rgba(17,17,15,.82)),
+                url("https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1800&q=85")
+                center/cover;
+            text-align: center;
+        }
+
+        .reservation h2 {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .reservation p {
+            max-width: 550px;
+            color: #c3bbaf;
+            margin: 25px auto 35px;
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            background: #0b0b0a;
+            padding: 80px 6% 25px;
+        }
+
+        .footer-grid {
+            max-width: 1250px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: 50px;
+            padding-bottom: 60px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .footer-brand p {
+            color: var(--muted);
+            max-width: 330px;
+            margin-top: 18px;
+            font-size: 14px;
+        }
+
+        footer h4 {
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        footer ul {
+            list-style: none;
+        }
+
+        footer li {
+            color: var(--muted);
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        footer li a:hover {
+            color: var(--orange-light);
+        }
+
+        .footer-bottom {
+            max-width: 1250px;
+            margin: 22px auto 0;
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            color: #77736c;
+            font-size: 12px;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 900px) {
+
+            nav {
+                display: none;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .about-grid,
+            .chef-grid {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+
+            .about-images {
+                height: 500px;
+            }
+
+            .chef-image {
+                height: 500px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            header {
+                padding: 22px 5%;
+            }
+
+            .hero-content {
+                width: 90%;
+            }
+
+            h1 {
+                letter-spacing: -2px;
+            }
+
+            section {
+                padding: 80px 5%;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .numbers {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .about-images {
+                height: 430px;
+            }
+
+            .about-main {
+                height: 380px;
+            }
+
+            .about-small {
+                height: 190px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+            }
+
+            .scroll {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="navbar">
+
+            <a href="#" class="logo">
+                Kareem's<span>&</span>Spices
+            </a>
+
+            <nav>
+                <a href="#home">Home</a>
+                <!-- <a href="#menu">Menu</a> -->
+                <!-- <a href="#story">Our Story</a> -->
+                <!-- <a href="#chef">Chef</a> -->
+                <a href="#contact">Contact</a>
+                <a href="#reserve" class="nav-btn">Reserve a Table</a>
+            </nav>
+
+        </div>
+    </header>
+
+
+    <!-- HERO -->
+    <section class="hero" id="home">
+
+        <div class="hero-content">
+
+            <div class="eyebrow">
+                Modern Fire-Cooked Dining
+            </div>
+
+            <h1>
+                Where fire<br>
+                meets <em>flavor.</em>
+            </h1>
+
+            <p class="hero-text">
+                Seasonal ingredients, open-fire cooking and bold flavors
+                come together in a dining experience designed to surprise you.
+            </p>
+
+            <div class="hero-buttons">
+                <!-- <a href="#menu" class="btn btn-primary">/
+                    Explore Our Menu
+                </a>
+
+                <a href="#reserve" class="btn btn-outline">
+                    Book a Table
+                </a>
+            </div>
+
+        </div>
+
+        <div class="scroll">
+            Scroll to explore
+        </div>
+
+    </section>
+
+
+    <!-- MENU -->
+    <!-- <section class="menu-section" id="menu"> -->
+
+        <!-- <div class="container"> -->
+
+            <!-- <div class="section-heading"> -->
+
+                <!-- <div class="eyebrow"> -->
+                    <!-- From Our Kitchen -->
+                <!-- </div> -->
+
+                <!-- <h2> -->
+                    <!-- Crafted with fire.<br> -->
+                    <!-- Served with soul. -->
+                <!-- </h2> -->
+
+                <!-- <p class="section-description"> -->
+                    <!-- Our menu changes with the seasons. Every plate is built -->
+                    <!-- around fresh ingredients and finished over live fire. -->
+                <!-- </p> -->
+
+            <!-- </div> -->
+
+
+            <!-- <div class="menu-grid"> -->
+
+                <!-- <article class="menu-card"> -->
+
+                    <!-- <div class="menu-image"> -->
+                        <!-- <img -->
+                            <!-- src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=900&q=80" -->
+                            <!-- alt="Roasted vegetables"> -->
+                    <!-- </div> -->
+
+                    <!-- <div class="menu-info"> -->
+
+                        <!-- <div class="menu-top"> -->
+                            <!-- <h3>Ember Vegetables</h3> -->
+                            <!-- <span class="price">$16</span> -->
+                        <!-- </div> -->
+
+                        <!-- <p> -->
+                            Charred seasonal vegetables, smoked yogurt,
+                            herbs and toasted seeds.
+                        <!-- </p> -->
+
+                    <!-- </div> -->
+
+                <!-- </article> -->
+
+
+                <!-- <article class="menu-card"> -->
+
+                    <!-- <div class="menu-image"> -->
+                        <!-- <img -->
+                            <!-- src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=900&q=80" -->
+                            <!-- alt="Grilled steak"> -->
+                    <!-- </div> -->
+
+                    <!-- <div class="menu-info"> -->
+
+                        <!-- <div class="menu-top"> -->
+                            <!-- <h3>Fire-Grilled Ribeye</h3> -->
+                            <!-- <span class="price">$34</span> -->
+                        <!-- </div> -->
+
+                        <!-- <p> -->
+                            <!-- Dry-aged beef, roasted garlic butter, -->
+                            <!-- ember potatoes and jus. -->
+                        <!-- </p> -->
+
+                    <!-- </dsziv> -->
+
+                <!-- </article> -->
+
+
+                <!-- <article class="menu-card"> -->
+
+                    <!-- <div class="menu-image"> -->
+                        <!-- <img -->
+                           <!-- / src="https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=900&q=80" -->
+                            <!-- alt="Gourmet dish"> -->
+                    <!-- </div> -->
+
+                    <!-- <div class="menu-info"> -->
+
+                        <!-- <div class="menu-top"> -->
+                            <!-- <h3>Thyme Sea Bass</h3> -->
+                            <!-- <span class="price">$29</span> -->
+                        <!-- </div> -->
+
+                        <!-- <p> -->
+                            <!-- Wild sea bass, lemon thyme, fennel, -->
+                            <!-- brown butter and crispy capers. -->
+                        <!-- </p> -->
+
+                    <!-- </div> -->
+
+                <!-- </article> -->
+
+            <!-- </div> -->
+
+        <!-- </div> -->
+
+    <!-- </section> -->
+
+
+    <!-- STORY -->
+    <section id="story">
+
+        <div class="container">
+
+            <div class="about-grid">
+
+                <div class="about-images">
+
+                    <img
+                        class="about-main"
+                        src="https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1000&q=85"
+                        alt="Restaurant interior">
+
+                    <img
+                        class="about-small"
+                        src="https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=700&q=80"
+                        alt="Food plate">
+
+                </div>
+
+
+                <div class="about-content">
+
+                    <div class="eyebrow">
+                        Our Story
+                    </div>
+
+                    <h2>
+                        Simple food.<br>
+                        Serious flavor.
+                    </h2>
+
+                    <p>
+                        Ember & Thyme began with one simple idea:
+                        great food doesn't need to be complicated.
+                    </p>
+
+                    <p>
+                        We work with local farmers, fishermen and producers
+                        to bring exceptional ingredients into our kitchen.
+                        Our chefs then let the fire do the rest.
+                    </p>
+
+                    <p>
+                        The result is food that feels familiar,
+                        yet completely new.
+                    </p>
+
+                    <div class="signature">
+                        — chef abdul kareem
+                        
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="numbers">
+
+                <div class="number">
+                    <h3>12+</h3>
+                    <p>Local Producers</p>
+                </div>
+
+                <div class="number">
+                    <h3>8</h3>
+                    <p>Years of Passion</p>
+                </div>
+
+                <div class="number">
+                    <h3>40+</h3>
+                    <p>Seasonal Dishes</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CHEF -->
+    <section class="chef-section" id="chef">
+
+        <div class="container">
+
+            <div class="chef-grid">
+
+                <div class="chef-image">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&w=1000&q=85"
+                        alt="Head chef">
+
+                </div>
+
+
+                <div class="chef-content">
+
+                    <div class="eyebrow">
+                        Meet the Chef
+                    </div>
+
+                    <blockquote>
+                        “Cooking is not about
+                        adding more. It's about
+                        making every ingredient
+                        matter.”
+                    </blockquote>
+
+                    <p>
+                        Chef Marco Ellis has spent more than a decade
+                        exploring the relationship between fire,
+                        fermentation and seasonal produce.
+                    </p>
+
+                    <p>
+                        His cooking is rooted in simplicity, but never
+                        short on character.
+                    </p>
+
+                    <div class="chef-name">
+                        Chef abdul kareem
+                    </div>
+
+                    <div class="chef-role">
+                        Founder & Executive Chef
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- TESTIMONIAL -->
+    <section class="testimonial">
+
+        <div class="container">
+
+            <div class="eyebrow">
+                Guestbook
+            </div>
+
+            <h2>
+                “One of those meals you keep
+                talking about long after dessert.”
+            </h2>
+
+            <p class="quote">
+                Everything felt effortless — the food,
+                the atmosphere, the service. We can't wait
+                to come back.
+            </p>
+
+            <div class="customer">
+                — Olivia R.
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- RESERVATION -->
+    <section class="reservation" id="reserve">
+
+        <div class="container">
+
+            <div class="eyebrow">
+                Your Table Awaits
+            </div>
+
+            <h2>
+                Make tonight<br>
+                worth remembering.
+            </h2>
+
+            <p>
+                Join us for an evening of fire, flavor and good company.
+                Reservations are recommended.
+            </p>
+
+            <a href="mailto:hello@emberandthyme.com"
+               class="btn btn-primary">
+                Reserve Your Table
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer id="contact">
+
+        <div class="footer-grid">
+
+            <div class="footer-brand">
+
+                <a href="#" class="logo">
+                    Kareem's<span>&</span>Spices
+                </a>
+
+                <p>
+                    A modern fire-cooked restaurant celebrating
+                    seasonal ingredients, honest cooking and
+                    unforgettable evenings.
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <h4>Explore</h4>
+
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <!-- <li><a href="#menu">Menu</a></li> -->
+                    <!-- <li><a href="#story">Our Story</a></li> -->
+                    <li><a href="#chef">Our Chef</a></li>
+                </ul>
+
+            </div>
+
+
+            <div>
+
+                <h4>Visit Us</h4>
+
+                <ul>
+                    <li>18 Willow Street</li>
+                    <li>Downtown District</li>
+                    <li>Abuja, Nigeria</li>
+                </ul>
+
+            </div>
+
+
+            <div>
+
+                <h4>Opening Hours</h4>
+
+                <ul>
+                    <li>Tue — Thu: 5PM — 11PM</li>
+                    <li>Fri — Sat: 5PM — 12AM</li>
+                    <li>Sunday: 4PM — 10PM</li>
+                    <li>Monday: Closed</li>
+                </ul> 
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <span>
+                © 2026 Kareem's & Spices. All rights reserved.
+            </span>
+
+            <span>
+                Crafted with passion.
+            </span>
+
+        </div>
+
+    </footer>
+
+</body>
+</html>
