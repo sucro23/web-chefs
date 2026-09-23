@@ -31,8 +31,11 @@
             right: 0;
             width: 100%;
             z-index: 10;
-            padding: 19px 6%;
+            padding: 28px 6%;
             background: #1a1916;
+        }
+        nav li{
+            list-style: none;
         }
  footer {
             background: #0b0b0a;
@@ -166,7 +169,7 @@
             min-height: 100vh;
             padding: 2.5rem 1.5rem 4rem 1.5rem;
             line-height: 1.5;
-            margin-top: 59px;
+            margin-top: 77px;
         }
 
         .container {
